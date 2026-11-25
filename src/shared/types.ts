@@ -40,7 +40,13 @@ export interface Content {
   elements: ContentElement[];
 }
 
-export interface Discovery { id: string; at: number; via: 'start' | 'combine' | 'skip'; points: number }
+export interface Discovery {
+  id: string; at: number; via: 'start' | 'combine' | 'skip'; points: number;
+  /** the pair it was made from (none for the starting elements) */
+  a?: string; b?: string;
+}
+
+export const pairKey = (a: string, b: string) => (a < b ? `${a}+${b}` : `${b}+${a}`);
 
 export interface HintState {
   target: string | null;
@@ -57,6 +63,12 @@ export interface GameState {
   profile: { id: number; name: string; avatar: string; points: number; hints: number; streak: number };
   discovered: Discovery[];
   exhausted: string[];
+  /** pairs tried that made nothing */
+  tried: string[];
+  /** pairs that made something, and what */
+  made: Record<string, string[]>;
+  /** how many undiscovered elements each discovered element still helps to make */
+  pending: Record<string, number>;
   hint: HintState;
   chapters: ChapterState[];
   unlockPercent: number;

@@ -43,6 +43,10 @@ export function openDb(dir: string) {
       created INTEGER NOT NULL
     );
   `);
+  // 0.13: remember the pair behind every discovery, and the pairs that worked
+  const cols = (t: string) => (db.prepare(`PRAGMA table_info(${t})`).all() as { name: string }[]).map((c) => c.name);
+  if (!cols('discoveries').includes('a')) db.exec('ALTER TABLE discoveries ADD COLUMN a TEXT; ALTER TABLE discoveries ADD COLUMN b TEXT;');
+  if (!cols('tried').includes('ok')) db.exec('ALTER TABLE tried ADD COLUMN ok INTEGER NOT NULL DEFAULT 0;');
   return db;
 }
 

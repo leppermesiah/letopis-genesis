@@ -1,7 +1,7 @@
 import { SpaceBackground } from './bg';
 import { CATS, CHAPTER_NAMES, TITLE_NAMES, UI, detectLang } from './i18n';
 import {
-  LANGS, TITLES, type CombineResult, type Content, type ContentElement, type GameState, type Lang,
+  LANGS, TITLES, pairKey, type CombineResult, type Content, type ContentElement, type GameState, type Lang,
 } from '../shared/types';
 
 declare const __BUILD__: string;
@@ -286,11 +286,13 @@ function renderGame() {
       h('div', { class: 'bar' }, h('i', { style: `width:${(ch.found / ch.total) * 100}%` }))),
     h('div', { class: 'score', title: nextAt ? `${nextAt}` : '' },
       h('b', {}, `★ ${s.profile.points}`), h('span', {}, TITLE_NAMES[lang][ti])),
+    h('button', { class: 'journal-btn', onclick: showJournal, title: T().journal }, '📜'),
     h('button', { class: `hint-btn ${s.hint.free ? 'free' : ''}`, onclick: openHint, title: T().hint },
       '💡', h('span', {}, s.hint.free ? '∞' : String(s.profile.hints))),
     langSwitch());
 
   app.replaceChildren(top, stage(), library());
+  markTried();
 }
 
 function stage() {
@@ -303,10 +305,40 @@ function stage() {
   };
   return h('section', { class: 'stage', id: 'stage' },
     h('div', { class: 'pair' }, mk(0), h('span', { class: 'plus' }, '+'), mk(1)),
-    h('div', { class: 'stage-msg', id: 'stage-msg' }, slots[0] || slots[1] ? '' : T().pickTwo));
+    h('div', { class: 'stage-msg', id: 'stage-msg' }, !slots[0] && !slots[1] ? T().pickTwo : !slots[0] || !slots[1] ? T().triedMarks : ''));
 }
 
-function refreshStage() { $('#stage').replaceWith(stage()); }
+function refreshStage() { $('#stage').replaceWith(stage()); markTried(); }
+
+/** with one element waiting in a circle, every tile it was already tried with gets a mark */
+function markTried() {
+  if (!state) return;
+  const one = slots[0] && !slots[1] ? slots[0] : slots[1] && !slots[0] ? slots[1] : null;
+  const failed = new Set(state.tried);
+  document.querySelectorAll<HTMLElement>('.tile').forEach((t) => {
+    t.classList.remove('tried-no', 'tried-yes');
+    if (!one) return;
+    const k = pairKey(one, t.dataset.id!);
+    if (failed.has(k)) t.classList.add('tried-no');
+    else if (state!.made[k]?.length) t.classList.add('tried-yes');
+  });
+}
+
+function recipeRow(a: string, b: string, c?: string) {
+  const part = (id: string) => h('span', { class: 'rp' }, icon(id), h('span', {}, name(id)));
+  return h('div', { class: 'recipe' }, part(a), h('i', {}, '+'), part(b), c ? h('i', {}, '=') : null, c ? part(c) : null);
+}
+
+function showJournal() {
+  const s = state!;
+  const list = [...s.discovered].reverse();
+  modal((close) => h('div', { class: 'journal' },
+    h('h3', {}, `📜 ${T().journal}`),
+    h('div', { class: 'jlist' }, ...list.map((d) => d.a && d.b
+      ? h('div', { class: `jrow ${d.via === 'skip' ? 'skip' : ''}` }, recipeRow(d.a, d.b, d.id), d.via === 'skip' ? h('span', { class: 'jskip', title: T().skipped }, '⤼') : null)
+      : h('div', { class: 'jrow start' }, h('div', { class: 'recipe' }, h('span', { class: 'rp' }, icon(d.id), h('span', {}, name(d.id))), h('i', {}, `· ${T().startEl}`))))),
+    h('div', { class: 'row' }, h('button', { class: 'btn', onclick: close }, T().close))), { wide: true });
+}
 
 function library() {
   const s = state!;
@@ -443,7 +475,21 @@ function showFact(id: string) {
     h('h2', {}, name(id)),
     h('div', { class: 'disc-meta' }, `${CATS[EL.get(id)!.cat]?.[lang] ?? ''}${d && d.points ? ` · ★ ${d.points}` : ''}${d?.via === 'skip' ? ` · ${T().skipped}` : ''}`),
     h('div', { class: 'fact' }, h('b', {}, T().didYouKnow), h('p', {}, EL.get(id)!.t[lang].f)),
+    h('div', { class: 'origin' },
+      h('div', { class: 'olabel' }, T().madeFrom),
+      d?.a && d.b ? recipeRow(d.a, d.b) : h('div', { class: 'onote' }, T().startEl)),
+    usedIn(id),
     h('button', { class: 'btn', onclick: close }, T().close)));
+}
+
+function usedIn(id: string) {
+  const s = state!;
+  const made = s.discovered.filter((d) => d.a === id || d.b === id);
+  const left = s.pending[id] ?? 0;
+  return h('div', { class: 'origin' },
+    h('div', { class: 'olabel' }, T().usedIn),
+    made.length ? h('div', { class: 'uses' }, ...made.map((d) => h('span', { class: 'rp' }, icon(d.id), h('span', {}, name(d.id))))) : null,
+    h('div', { class: 'onote' }, left ? T().stillMakes.replace('{0}', String(left)) : T().allMade));
 }
 
 async function openHint() {

@@ -133,7 +133,19 @@ export class Game {
   // ---------- the game ----------
 
   private discovered(id: number): Discovery[] {
-    return this.db.prepare('SELECT element AS id, at, via, points FROM discoveries WHERE profile_id = ? ORDER BY at, rowid').all(id) as unknown as Discovery[];
+    const rows = this.db.prepare('SELECT element AS id, at, via, points, a, b FROM discoveries WHERE profile_id = ? ORDER BY at, rowid').all(id) as unknown as (Discovery & { a: string | null; b: string | null })[];
+    // games from before 0.13 did not keep the pair: take a recipe made of things found earlier
+    const before = new Set<string>();
+    return rows.map((r) => {
+      const d: Discovery = { id: r.id, at: r.at, via: r.via, points: r.points };
+      if (r.a && r.b) { d.a = r.a; d.b = r.b; }
+      else if (r.via !== 'start') {
+        const rec = ELEMENTS.get(r.id)?.recipes.find(([a, b]) => before.has(a) && before.has(b)) ?? ELEMENTS.get(r.id)?.recipes[0];
+        if (rec) { d.a = rec[0]; d.b = rec[1]; }
+      }
+      before.add(r.id);
+      return d;
+    });
   }
 
   private chapters(found: Set<string>): ChapterState[] {
@@ -187,9 +199,23 @@ export class Game {
       hint.ingredients = r.hint_level >= 3 ? [a, b] : r.hint_level >= 2 ? [a] : [];
       hint.canSkip = r.hint_level >= 3;
     }
+    const tried: string[] = [];
+    const made: Record<string, string[]> = {};
+    const open = this.unlockedSet(found);
+    const addMade = (k: string) => { if (!made[k]) made[k] = (PAIRS.get(k) ?? []).filter((x) => found.has(x)); };
+    for (const t of this.db.prepare('SELECT pair, ok FROM tried WHERE profile_id = ?').all(id) as { pair: string; ok: number }[]) {
+      if ((PAIRS.get(t.pair) ?? []).some((x) => found.has(x))) addMade(t.pair);
+      else tried.push(t.pair);
+    }
+    for (const d of discovered) if (d.a && d.b) addMade(pairKey(d.a, d.b));
+    const pending: Record<string, number> = {};
+    for (const e of found) {
+      const n = [...(USES.get(e) ?? [])].filter((x) => !found.has(x) && open.has(x)).length;
+      if (n) pending[e] = n;
+    }
     return {
       profile: { id: r.id, name: r.name, avatar: r.avatar, points: r.points, hints: r.hints, streak: r.streak },
-      discovered, exhausted, hint, chapters: this.chapters(found), unlockPercent: this.unlockPercent,
+      discovered, exhausted, tried, made, pending, hint, chapters: this.chapters(found), unlockPercent: this.unlockPercent,
     };
   }
 
@@ -226,9 +252,10 @@ export class Game {
     const bonus = { streak: 0, chapter: 0 };
     if (makes.length === 0) {
       const before = this.db.prepare('SELECT 1 FROM tried WHERE profile_id = ? AND pair = ?').get(id, key);
-      if (!before) this.db.prepare('INSERT INTO tried (profile_id, pair) VALUES (?, ?)').run(id, key);
+      if (!before) this.db.prepare('INSERT INTO tried (profile_id, pair, ok) VALUES (?, ?, 0)').run(id, key);
       return { results: [], tried: !!before, near: NEAR.get(key) ?? null, bonus, state: this.state(id) };
     }
+    this.db.prepare('INSERT OR REPLACE INTO tried (profile_id, pair, ok) VALUES (?, ?, 1)').run(id, key);
     const results: CombineResult['results'] = [];
     let { points, streak, earned, hint_target, hint_level, hints } = r;
     const chaptersBefore = this.chapters(found);
@@ -236,7 +263,7 @@ export class Game {
       if (found.has(x)) { results.push({ id: x, isNew: false, points: 0 }); continue; }
       const usedHint = hint_target === x ? hint_level : 0;
       const p = Math.round(TIER_POINTS[tierOf(x)] * HINT_FACTOR[usedHint]);
-      this.db.prepare("INSERT INTO discoveries (profile_id, element, at, via, points) VALUES (?, ?, ?, 'combine', ?)").run(id, x, Date.now(), p);
+      this.db.prepare("INSERT INTO discoveries (profile_id, element, at, via, points, a, b) VALUES (?, ?, ?, 'combine', ?, ?, ?)").run(id, x, Date.now(), p, a, b);
       found.add(x);
       results.push({ id: x, isNew: true, points: p });
       points += p;
@@ -266,7 +293,8 @@ export class Game {
     if (!r.hint_target || r.hint_level < 3 || found.has(r.hint_target)) throw new HttpError(409, 'no_skip');
     const x = r.hint_target;
     const before = this.chapters(found);
-    this.db.prepare("INSERT INTO discoveries (profile_id, element, at, via, points) VALUES (?, ?, ?, 'skip', 0)").run(id, x, Date.now());
+    const [ra, rb] = this.hintRecipe(x, found);
+    this.db.prepare("INSERT INTO discoveries (profile_id, element, at, via, points, a, b) VALUES (?, ?, ?, 'skip', 0, ?, ?)").run(id, x, Date.now(), ra, rb);
     found.add(x);
     const after = this.chapters(found);
     const bonus = { streak: 0, chapter: 0 };

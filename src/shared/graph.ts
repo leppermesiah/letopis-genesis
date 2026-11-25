@@ -1,10 +1,11 @@
 import { CHAPTERS } from './chapters';
-import { LANGS, type Content, type ElementDef, type Lang } from './types';
+import { LANGS, pairKey, type Content, type ElementDef, type Lang } from './types';
+
+export { pairKey };
 
 export const ELEMENTS = new Map<string, ElementDef & { chapter: string }>();
 for (const ch of CHAPTERS) for (const e of ch.elements) ELEMENTS.set(e.id, { ...e, chapter: ch.id });
 
-export const pairKey = (a: string, b: string) => (a < b ? `${a}+${b}` : `${b}+${a}`);
 
 /** pair -> what it makes */
 export const PAIRS = new Map<string, string[]>();
