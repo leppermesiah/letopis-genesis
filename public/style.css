@@ -96,14 +96,18 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .cats button.on { background: linear-gradient(135deg, rgba(255, 200, 97, 0.25), rgba(95, 216, 255, 0.18)); color: var(--text); border-color: rgba(255, 200, 97, 0.5); }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); gap: 8px; padding: 6px 10px 14px; overflow-y: auto; align-content: start; }
 .tile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px 6px; border-radius: 14px;
-  background: rgba(255, 255, 255, 0.035); border: 1px solid transparent; cursor: grab; touch-action: none; transition: background .15s, transform .1s; }
-.tile:hover { background: rgba(255, 255, 255, 0.08); border-color: var(--line); }
+  /* still useful: a lit card */
+  background: radial-gradient(circle at 50% 35%, rgba(130, 160, 255, 0.26), rgba(60, 70, 150, 0.16) 70%);
+  border: 1px solid rgba(255, 200, 97, 0.38); box-shadow: 0 0 14px rgba(110, 140, 255, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  cursor: grab; touch-action: none; transition: background .15s, transform .1s, border-color .15s; }
+.tile:hover { background: radial-gradient(circle at 50% 35%, rgba(150, 180, 255, 0.34), rgba(70, 80, 170, 0.22) 70%); border-color: rgba(255, 200, 97, 0.7); }
 .tile:active { transform: scale(0.95); }
 .tile .icon { width: 56px; height: 56px; pointer-events: none; }
 .tile .icon.emoji { font-size: 40px; line-height: 56px; width: auto; text-align: center; }
 .tname { font-size: 12px; text-align: center; line-height: 1.2; max-width: 100%; hyphens: auto; overflow-wrap: break-word; }
 @media (max-width: 420px) { .tname { font-size: 11px; } .grid { gap: 6px; padding: 6px 8px 14px; } }
-.tile.done { opacity: 0.6; filter: saturate(0.6); }
+.tile.done { background: rgba(255, 255, 255, 0.02); border-color: rgba(255, 255, 255, 0.05); box-shadow: none; opacity: 0.6; filter: saturate(0.6); }
+.tile.done:hover { background: rgba(255, 255, 255, 0.06); border-color: var(--line); }
 .tile .info { position: absolute; top: 4px; right: 4px; width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--line); background: rgba(0, 0, 0, 0.35);
   font: italic 700 11px/16px Georgia, serif; color: var(--dim); padding: 0; opacity: 0.7; }
 .tile .info:hover { opacity: 1; color: var(--text); }
@@ -117,7 +121,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .screen-game { grid-template-columns: minmax(340px, 38%) 1fr; grid-template-rows: auto 1fr; padding: 14px; gap: 14px; }
   .top { grid-column: 1 / -1; }
   .stage { justify-content: center; }
-  .slot { width: 150px; height: 150px; }
+  .slot { width: clamp(110px, 12vw, 150px); height: clamp(110px, 12vw, 150px); }
   .grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
   .tile .icon { width: 64px; height: 64px; }
 }
