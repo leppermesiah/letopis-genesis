@@ -28,11 +28,11 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'matter', cat: 'basics', emoji: '🪨', start: true, recipes: [],
+    id: 'matter', cat: 'basics', emoji: '🪨', recipes: [['atom', 'atom']],
     t: {
-      bg: { n: 'Материя', f: 'Всичко, което можеш да пипнеш, е материя. Но обикновената материя е само около 5% от Вселената, останалото са тъмна материя и тъмна енергия, които още никой не е видял.', h: 'Всичко, което може да се пипне.' },
-      en: { n: 'Matter', f: 'Everything you can touch is matter. Yet ordinary matter is only about 5% of the universe; the rest is dark matter and dark energy, which nobody has ever seen.', h: 'Everything you can touch.' },
-      de: { n: 'Materie', f: 'Alles, was du anfassen kannst, ist Materie. Doch gewöhnliche Materie macht nur etwa 5 % des Universums aus, der Rest sind Dunkle Materie und Dunkle Energie, die noch niemand gesehen hat.', h: 'Alles, was man anfassen kann.' },
+      bg: { n: 'Материя', f: 'Всичко, което можеш да пипнеш, е материя. Но обикновената материя е само около 5% от Вселената, останалото са тъмна материя и тъмна енергия, които още никой не е видял.', h: 'Много от едни и същи мънички тухлички, събрани заедно.' },
+      en: { n: 'Matter', f: 'Everything you can touch is matter. Yet ordinary matter is only about 5% of the universe; the rest is dark matter and dark energy, which nobody has ever seen.', h: 'Lots of the same tiny building blocks put together.' },
+      de: { n: 'Materie', f: 'Alles, was du anfassen kannst, ist Materie. Doch gewöhnliche Materie macht nur etwa 5 % des Universums aus, der Rest sind Dunkle Materie und Dunkle Energie, die noch niemand gesehen hat.', h: 'Viele gleiche winzige Bausteine, zusammengefügt.' },
     },
   },
   {
@@ -44,27 +44,27 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'particle', cat: 'micro', emoji: '✨', recipes: [['big_bang', 'matter']],
+    id: 'particle', cat: 'micro', emoji: '✨', recipes: [['big_bang', 'time']],
     t: {
-      bg: { n: 'Частица', f: 'В първата секунда след Големия взрив Вселената е била супа от мънички частици. Протоните в тялото ти са се родили точно тогава.', h: 'Първите трохи след голямото начало.' },
-      en: { n: 'Particle', f: 'In the first second after the Big Bang the universe was a soup of tiny particles. The protons in your body were born right then.', h: 'The first crumbs after the great beginning.' },
-      de: { n: 'Teilchen', f: 'In der ersten Sekunde nach dem Urknall war das Universum eine Suppe aus winzigen Teilchen. Die Protonen in deinem Körper sind genau damals entstanden.', h: 'Die ersten Krümel nach dem großen Anfang.' },
+      bg: { n: 'Частица', f: 'В първата секунда след Големия взрив Вселената е била супа от мънички частици. Протоните в тялото ти са се родили точно тогава.', h: 'Миг след голямото начало, докато всичко изстива.' },
+      en: { n: 'Particle', f: 'In the first second after the Big Bang the universe was a soup of tiny particles. The protons in your body were born right then.', h: 'A moment after the great beginning, while everything cools down.' },
+      de: { n: 'Teilchen', f: 'In der ersten Sekunde nach dem Urknall war das Universum eine Suppe aus winzigen Teilchen. Die Protonen in deinem Körper sind genau damals entstanden.', h: 'Einen Augenblick nach dem großen Anfang, während alles abkühlt.' },
     },
   },
   {
-    id: 'light', cat: 'basics', emoji: '💡', recipes: [['particle', 'energy']],
+    id: 'light', cat: 'basics', emoji: '💡', recipes: [['heat', 'space']],
     t: {
-      bg: { n: 'Светлина', f: 'Светлината изминава 300 000 км в секунда. От Слънцето до нас пътува около 8 минути, така че винаги виждаш Слънцето такова, каквото е било преди 8 минути.', h: 'Нещо мъничко получава сила и полита.' },
-      en: { n: 'Light', f: 'Light travels 300,000 km every second. It takes about 8 minutes to reach us from the Sun, so you always see the Sun as it was 8 minutes ago.', h: 'Something tiny gets power and flies off.' },
-      de: { n: 'Licht', f: 'Licht legt 300.000 km pro Sekunde zurück. Von der Sonne zu uns braucht es etwa 8 Minuten, du siehst die Sonne also immer so, wie sie vor 8 Minuten war.', h: 'Etwas Winziges bekommt Kraft und fliegt los.' },
+      bg: { n: 'Светлина', f: 'Светлината изминава 300 000 км в секунда. От Слънцето до нас пътува около 8 минути, така че винаги виждаш Слънцето такова, каквото е било преди 8 минути.', h: 'Горещото свети, а сиянието излита в тъмното.' },
+      en: { n: 'Light', f: 'Light travels 300,000 km every second. It takes about 8 minutes to reach us from the Sun, so you always see the Sun as it was 8 minutes ago.', h: 'Hot things glow, and the glow flies off into the dark.' },
+      de: { n: 'Licht', f: 'Licht legt 300.000 km pro Sekunde zurück. Von der Sonne zu uns braucht es etwa 8 Minuten, du siehst die Sonne also immer so, wie sie vor 8 Minuten war.', h: 'Heißes leuchtet, und das Leuchten fliegt hinaus ins Dunkel.' },
     },
   },
   {
-    id: 'heat', cat: 'basics', emoji: '🔥', recipes: [['energy', 'matter']],
+    id: 'heat', cat: 'basics', emoji: '🔥', recipes: [['energy', 'particle']],
     t: {
-      bg: { n: 'Топлина', f: 'Топлината е просто движение: колкото по-бързо треперят частиците в нещо, толкова е по-горещо. При абсолютната нула, −273,15 °C, почти всичко спира.', h: 'Когато нещо осезаемо получи сила, започва да трепери.' },
-      en: { n: 'Heat', f: 'Heat is just movement: the faster the particles in something jiggle, the hotter it is. At absolute zero, −273.15 °C, almost everything stops.', h: 'When something you can touch gets power, it starts to shake.' },
-      de: { n: 'Wärme', f: 'Wärme ist einfach Bewegung: Je schneller die Teilchen in etwas zittern, desto heißer ist es. Beim absoluten Nullpunkt, −273,15 °C, steht fast alles still.', h: 'Wenn etwas Greifbares Kraft bekommt, fängt es an zu zittern.' },
+      bg: { n: 'Топлина', f: 'Топлината е просто движение: колкото по-бързо треперят частиците в нещо, толкова е по-горещо. При абсолютната нула, −273,15 °C, почти всичко спира.', h: 'Когато мъничките трохи получат сила, започват да трептят.' },
+      en: { n: 'Heat', f: 'Heat is just movement: the faster the particles in something jiggle, the hotter it is. At absolute zero, −273.15 °C, almost everything stops.', h: 'When the tiniest bits get power, they start to jiggle.' },
+      de: { n: 'Wärme', f: 'Wärme ist einfach Bewegung: Je schneller die Teilchen in etwas zittern, desto heißer ist es. Beim absoluten Nullpunkt, −273,15 °C, steht fast alles still.', h: 'Wenn die winzigsten Teilchen Kraft bekommen, fangen sie an zu zittern.' },
     },
   },
   {
@@ -132,11 +132,11 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'black_hole', cat: 'stars', emoji: '🕳️', recipes: [['star', 'gravity'], ['neutron_star', 'neutron_star']],
+    id: 'black_hole', cat: 'stars', emoji: '🕳️', recipes: [['neutron_star', 'gravity'], ['neutron_star', 'neutron_star']],
     t: {
-      bg: { n: 'Черна дупка', f: 'От черната дупка не може да избяга дори светлината. Първата ѝ снимка е направена през 2019 г. с телескопи от цял свят, свързани в един.', h: 'Звезда, която дърпа прекалено силно.' },
-      en: { n: 'Black hole', f: 'Not even light can escape a black hole. The first picture of one was taken in 2019 by telescopes all over the world working as one.', h: 'A star that pulls far too hard.' },
-      de: { n: 'Schwarzes Loch', f: 'Nicht einmal Licht kann einem Schwarzen Loch entkommen. Das erste Bild davon entstand 2019 mit Teleskopen auf der ganzen Welt, die wie eines zusammenarbeiteten.', h: 'Ein Stern, der viel zu stark zieht.' },
+      bg: { n: 'Черна дупка', f: 'От черната дупка не може да избяга дори светлината. Първата ѝ снимка е направена през 2019 г. с телескопи от цял свят, свързани в един.', h: 'Остатък от звезда, толкова тежък, че пропада сам в себе си.' },
+      en: { n: 'Black hole', f: 'Not even light can escape a black hole. The first picture of one was taken in 2019 by telescopes all over the world working as one.', h: 'What is left of a star, so heavy it falls into itself.' },
+      de: { n: 'Schwarzes Loch', f: 'Nicht einmal Licht kann einem Schwarzen Loch entkommen. Das erste Bild davon entstand 2019 mit Teleskopen auf der ganzen Welt, die wie eines zusammenarbeiteten.', h: 'Der Rest eines Sterns, so schwer, dass er in sich selbst stürzt.' },
     },
   },
   {

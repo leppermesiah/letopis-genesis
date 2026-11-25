@@ -35,11 +35,19 @@ export const COSMOS_NEAR: NearMiss[] = [
     },
   },
   {
-    pair: ['atom', 'atom'],
+    pair: ['big_bang', 'matter'],
     t: {
-      bg: 'Атомите обичат компания, но първият атом трябва първо да се пръсне из цялото пространство.',
-      en: 'Atoms like company, but the very first atom must spread through all of space first.',
-      de: 'Atome mögen Gesellschaft, aber das allererste Atom muss sich zuerst im ganzen Raum verteilen.',
+      bg: 'Големият взрив е самото начало, материята идва чак след него. Дай му малко време.',
+      en: 'The Big Bang is the very beginning, matter only comes after it. Give it a little time.',
+      de: 'Der Urknall ist der allererste Anfang, Materie kommt erst danach. Gib ihm ein wenig Zeit.',
+    },
+  },
+  {
+    pair: ['star', 'gravity'],
+    t: {
+      bg: 'Звездата дърпа силно, но докато свети, не може да пропадне. Първо трябва да умре.',
+      en: 'The star pulls hard, but while it shines it cannot collapse. First it has to die.',
+      de: 'Der Stern zieht stark, aber solange er leuchtet, kann er nicht in sich zusammenstürzen. Zuerst muss er sterben.',
     },
   },
   {
