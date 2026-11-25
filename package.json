@@ -1,0 +1,24 @@
+{
+  "name": "letopis-genesis",
+  "version": "0.10.0",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "private": true,
+  "description": "Combine elements and rebuild the universe",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc --noEmit",
+    "check": "node build.mjs --check",
+    "start": "node --disable-warning=ExperimentalWarning dist/server.js",
+    "dev": "node build.mjs && GENESIS_DATA=./data GENESIS_ADMIN_PIN=0000 node --disable-warning=ExperimentalWarning dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leppermesiah/letopis-genesis.git"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.8",
+    "esbuild": "0.25.10",
+    "typescript": "5.9.3"
+  }
+}
