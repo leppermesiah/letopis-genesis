@@ -1,6 +1,6 @@
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 import { CHAPTERS } from '../shared/chapters';
-import { DEPTH, ELEMENTS, PAIRS, STARTERS, USES, pairKey, tierOf } from '../shared/graph';
+import { DEPTH, ELEMENTS, NEAR, PAIRS, STARTERS, USES, pairKey, tierOf } from '../shared/graph';
 import {
   CHAPTER_BONUS, FREE_HINTS_LEFT, HINT_EVERY, HINT_FACTOR, START_HINTS, STREAK_BONUS, STREAK_EVERY, TIER_POINTS,
   type ChapterState, type CombineResult, type Discovery, type GameState, type HintState,
@@ -227,7 +227,7 @@ export class Game {
     if (makes.length === 0) {
       const before = this.db.prepare('SELECT 1 FROM tried WHERE profile_id = ? AND pair = ?').get(id, key);
       if (!before) this.db.prepare('INSERT INTO tried (profile_id, pair) VALUES (?, ?)').run(id, key);
-      return { results: [], tried: !!before, bonus, state: this.state(id) };
+      return { results: [], tried: !!before, near: NEAR.get(key) ?? null, bonus, state: this.state(id) };
     }
     const results: CombineResult['results'] = [];
     let { points, streak, earned, hint_target, hint_level, hints } = r;
@@ -256,7 +256,7 @@ export class Game {
     if (hint_target && found.has(hint_target)) { hint_target = null; hint_level = 0; }
     this.db.prepare('UPDATE profiles SET points = ?, streak = ?, earned = ?, hints = ?, hint_target = ?, hint_level = ? WHERE id = ?')
       .run(points, streak, earned, hints, hint_target, hint_level, id);
-    return { results, tried: false, bonus, state: this.state(id) };
+    return { results, tried: false, near: null, bonus, state: this.state(id) };
   }
 
   /** after the last hint: take the element without points */
@@ -272,6 +272,6 @@ export class Game {
     const bonus = { streak: 0, chapter: 0 };
     for (let i = 0; i < after.length; i++) if (after[i].done && !before[i].done) bonus.chapter += CHAPTER_BONUS;
     this.db.prepare('UPDATE profiles SET points = points + ?, streak = 0, hint_target = NULL, hint_level = 0 WHERE id = ?').run(bonus.chapter, id);
-    return { results: [{ id: x, isNew: true, points: 0 }], tried: false, bonus, state: this.state(id) };
+    return { results: [{ id: x, isNew: true, points: 0 }], tried: false, near: null, bonus, state: this.state(id) };
   }
 }

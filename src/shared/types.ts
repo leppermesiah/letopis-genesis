@@ -14,9 +14,12 @@ export interface ElementDef {
   t: Record<Lang, ElementText>;
 }
 
+export interface NearMiss { pair: [string, string]; t: Record<Lang, string> }
+
 export interface ChapterDef {
   id: string;
   elements: ElementDef[];
+  near: NearMiss[];
 }
 
 /** what the client gets: everything except the recipes */
@@ -62,6 +65,8 @@ export interface GameState {
 export interface CombineResult {
   results: { id: string; isNew: boolean; points: number }[];
   tried: boolean;
+  /** an "almost!" clue for a pair that makes sense but comes too early */
+  near: Record<Lang, string> | null;
   bonus: { streak: number; chapter: number };
   state: GameState;
 }

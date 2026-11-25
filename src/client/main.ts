@@ -68,11 +68,13 @@ function icon(id: string, cls = '') {
   return h('span', { class: `icon emoji ${cls}` }, e?.emoji ?? '?');
 }
 
-function toast(text: string, kind: 'info' | 'warn' | 'good' = 'info') {
+function toast(text: string, kind: 'info' | 'warn' | 'good' | 'near' = 'info') {
   const t = h('div', { class: `toast ${kind}` }, text);
   $('#toasts').append(t);
-  setTimeout(() => t.classList.add('out'), 2200);
-  setTimeout(() => t.remove(), 2700);
+  // longer texts stay longer, so kids can read them
+  const ms = Math.max(2200, Math.min(7000, text.length * 55));
+  setTimeout(() => t.classList.add('out'), ms);
+  setTimeout(() => t.remove(), ms + 500);
 }
 
 // ---------- modal ----------
@@ -409,7 +411,8 @@ async function combine() {
     toast(`${T().already} ${r.results.map((x) => name(x.id)).join(', ')}`, 'info');
   } else {
     stage.classList.add('fail');
-    toast(r.tried ? T().triedBefore : T().nothing, 'warn');
+    if (r.near) toast(`${T().almost} ${r.near[lang]}`, 'near');
+    else toast(r.tried ? T().triedBefore : T().nothing, 'warn');
   }
   setTimeout(() => { slots = [null, null]; busy = false; renderGame(); }, 650);
 }

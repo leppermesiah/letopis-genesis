@@ -1,5 +1,5 @@
 import { CHAPTERS } from './chapters';
-import { LANGS, type Content, type ElementDef } from './types';
+import { LANGS, type Content, type ElementDef, type Lang } from './types';
 
 export const ELEMENTS = new Map<string, ElementDef & { chapter: string }>();
 for (const ch of CHAPTERS) for (const e of ch.elements) ELEMENTS.set(e.id, { ...e, chapter: ch.id });
@@ -20,6 +20,10 @@ for (const e of ELEMENTS.values()) {
     }
   }
 }
+
+/** "almost!" clues by pair */
+export const NEAR = new Map<string, Record<Lang, string>>();
+for (const ch of CHAPTERS) for (const n of ch.near) NEAR.set(pairKey(n.pair[0], n.pair[1]), n.t);
 
 /** steps from the starting elements: the shortest way to make it */
 export const DEPTH = new Map<string, number>();
@@ -75,6 +79,12 @@ export function validate(): string[] {
     }
   }
   for (const ch of CHAPTERS) {
+    for (const n of ch.near) {
+      const k = pairKey(n.pair[0], n.pair[1]);
+      for (const x of n.pair) if (!ELEMENTS.has(x)) errors.push(`near ${k}: unknown ${x}`);
+      if (PAIRS.has(k)) errors.push(`near ${k}: this pair already makes something`);
+      for (const l of LANGS) if (!n.t[l]) errors.push(`near ${k}: missing ${l} text`);
+    }
     if (ch.elements.filter((e) => e.key).length !== 1) errors.push(`chapter ${ch.id}: needs exactly one key element`);
     // every recipe of a chapter must use elements of this or earlier chapters
     const idx = CHAPTERS.indexOf(ch);
