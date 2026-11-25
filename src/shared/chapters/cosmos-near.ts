@@ -66,22 +66,8 @@ export const COSMOS_NEAR: NearMiss[] = [
       de: 'Der Stern braucht nicht mehr Kraft. Seine Geschichte geht mit der Zeit weiter.',
     },
   },
-  {
-    pair: ['dust', 'dust'],
-    t: {
-      bg: 'Прашинките се слепват, но нещо невидимо трябва да ги събере на топка.',
-      en: 'The specks stick together, but something invisible has to pull them into a ball.',
-      de: 'Die Körnchen kleben zusammen, aber etwas Unsichtbares muss sie zu einer Kugel ziehen.',
-    },
-  },
-  {
-    pair: ['planet', 'ice'],
-    t: {
-      bg: 'Лед върху планета… но коя? Първо ѝ трябва цяла система около свое слънце.',
-      en: 'Ice on a planet… but which one? First it needs a whole system around its own sun.',
-      de: 'Eis auf einem Planeten … aber auf welchem? Zuerst braucht er ein ganzes System um seine eigene Sonne.',
-    },
-  },
+
+
   {
     pair: ['planet', 'gravity'],
     t: {

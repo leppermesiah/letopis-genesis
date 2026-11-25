@@ -52,7 +52,7 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'light', cat: 'basics', emoji: '💡', recipes: [['heat', 'space']],
+    id: 'light', cat: 'basics', emoji: '💡', recipes: [['heat', 'space'], ['heat', 'energy']],
     t: {
       bg: { n: 'Светлина', f: 'Светлината изминава 300 000 км в секунда. От Слънцето до нас пътува около 8 минути, така че винаги виждаш Слънцето такова, каквото е било преди 8 минути.', h: 'Горещото свети, а сиянието излита в тъмното.' },
       en: { n: 'Light', f: 'Light travels 300,000 km every second. It takes about 8 minutes to reach us from the Sun, so you always see the Sun as it was 8 minutes ago.', h: 'Hot things glow, and the glow flies off into the dark.' },
@@ -60,7 +60,7 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'heat', cat: 'basics', emoji: '🔥', recipes: [['energy', 'particle']],
+    id: 'heat', cat: 'basics', emoji: '🔥', recipes: [['energy', 'particle'], ['energy', 'matter']],
     t: {
       bg: { n: 'Топлина', f: 'Топлината е просто движение: колкото по-бързо треперят частиците в нещо, толкова е по-горещо. При абсолютната нула, −273,15 °C, почти всичко спира.', h: 'Когато мъничките трохи получат сила, започват да трептят.' },
       en: { n: 'Heat', f: 'Heat is just movement: the faster the particles in something jiggle, the hotter it is. At absolute zero, −273.15 °C, almost everything stops.', h: 'When the tiniest bits get power, they start to jiggle.' },
@@ -84,7 +84,7 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'hydrogen', cat: 'micro', emoji: '🫧', recipes: [['atom', 'space']],
+    id: 'hydrogen', cat: 'micro', emoji: '🫧', recipes: [['atom', 'space'], ['atom', 'big_bang']],
     t: {
       bg: { n: 'Водород', f: 'Водородът е най-простият и най-разпространеният елемент: около три от всеки четири грама обикновена материя във Вселената са водород.', h: 'Първият атом се разпръсква навсякъде.' },
       en: { n: 'Hydrogen', f: 'Hydrogen is the simplest and most common element: about three of every four grams of ordinary matter in the universe are hydrogen.', h: 'The first atom spreads out everywhere.' },
@@ -100,7 +100,7 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'gas_cloud', cat: 'stars', emoji: '☁️', recipes: [['hydrogen', 'helium']],
+    id: 'gas_cloud', cat: 'stars', emoji: '☁️', recipes: [['hydrogen', 'helium'], ['hydrogen', 'space']],
     t: {
       bg: { n: 'Газов облак', f: 'Мъглявината Орион е облак газ, в който точно сега се раждат звезди. Виждаш я с просто око като мъгливо петно в съзвездието Орион.', h: 'Двата най-леки газа се събират на едно място.' },
       en: { n: 'Gas cloud', f: 'The Orion Nebula is a gas cloud where stars are being born right now. You can see it with your bare eyes as a fuzzy patch in Orion.', h: 'The two lightest gases gather in one place.' },
@@ -108,7 +108,7 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'star', cat: 'stars', emoji: '⭐', recipes: [['gas_cloud', 'gravity']],
+    id: 'star', cat: 'stars', emoji: '⭐', recipes: [['gas_cloud', 'gravity'], ['gas_cloud', 'heat']],
     t: {
       bg: { n: 'Звезда', f: 'В ясна нощ без луна виждаш с просто око около 3 000 звезди. Само в нашата галактика те са над 100 милиарда.', h: 'Облак, който се свива сам в себе си.' },
       en: { n: 'Star', f: 'On a clear night without the Moon you can see about 3,000 stars with your bare eyes. Our galaxy alone has more than 100 billion.', h: 'A cloud that pulls itself together.' },
@@ -164,7 +164,7 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'iron', cat: 'materials', emoji: '⚙️', recipes: [['oxygen', 'star']],
+    id: 'iron', cat: 'materials', emoji: '⚙️', recipes: [['oxygen', 'star'], ['carbon', 'star']],
     t: {
       bg: { n: 'Желязо', f: 'Желязото е последното, което звездата може да изгори в ядрото си. Щом се натрупа, звездата е обречена. Желязото в кръвта ти е направено в звезди.', h: 'Звездата продължава да пече все по-тежки неща.' },
       en: { n: 'Iron', f: 'Iron is the last thing a star can burn in its core. Once it piles up, the star is doomed. The iron in your blood was made inside stars.', h: 'The star keeps baking heavier and heavier things.' },
@@ -180,7 +180,7 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'sun', cat: 'stars', emoji: '☀️', recipes: [['star', 'dust']],
+    id: 'sun', cat: 'stars', emoji: '☀️', recipes: [['star', 'dust'], ['star', 'heat']],
     t: {
       bg: { n: 'Слънце', f: 'В Слънцето биха се събрали около милион Земи. Слънцето е звезда от второ поколение, родена от праха на по-стари звезди.', h: 'Нова звезда, родена от остатъците на старите.' },
       en: { n: 'Sun', f: 'About a million Earths would fit inside the Sun. The Sun is a second-generation star, born from the dust of older stars.', h: 'A new star born from the leftovers of old ones.' },
@@ -188,7 +188,7 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'planet', cat: 'worlds', emoji: '🪐', recipes: [['dust', 'gravity']],
+    id: 'planet', cat: 'worlds', emoji: '🪐', recipes: [['dust', 'gravity'], ['asteroid', 'asteroid']],
     t: {
       bg: { n: 'Планета', f: 'Планетите растат като снежни топки: прашинки се слепват в камъчета, камъчетата в скали, а скалите в цели светове.', h: 'Прашинки, които нещо невидимо събира на топка.' },
       en: { n: 'Planet', f: 'Planets grow like snowballs: specks of dust stick into pebbles, pebbles into rocks and rocks into whole worlds.', h: 'Specks pulled into a ball by something invisible.' },
@@ -212,15 +212,15 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'comet', cat: 'worlds', emoji: '☄️', recipes: [['ice', 'dust']],
+    id: 'comet', cat: 'worlds', emoji: '☄️', recipes: [['ice', 'dust'], ['ice', 'asteroid']],
     t: {
-      bg: { n: 'Комета', f: 'Кометите са „мръсни снежни топки“. Когато се доближат до Слънцето, ледът им се изпарява и опашката им може да стане дълга милиони километри.', h: 'Мръсна снежна топка.' },
-      en: { n: 'Comet', f: 'Comets are "dirty snowballs". When they come close to the Sun their ice turns to gas, and the tail can grow millions of kilometres long.', h: 'A dirty snowball.' },
-      de: { n: 'Komet', f: 'Kometen sind „schmutzige Schneebälle“. Kommen sie der Sonne nahe, verdampft ihr Eis, und der Schweif kann Millionen Kilometer lang werden.', h: 'Ein schmutziger Schneeball.' },
+      bg: { n: 'Комета', f: 'Кометите са „мръсни снежни топки“. Когато се доближат до Слънцето, ледът им се изпарява и опашката им може да стане дълга милиони километри. Има и астероиди с лед, на които понякога също им пораства опашка.', h: 'Мръсна снежна топка.' },
+      en: { n: 'Comet', f: 'Comets are "dirty snowballs". When they come close to the Sun their ice turns to gas, and the tail can grow millions of kilometres long. Some asteroids carry ice too, and now and then they grow a tail as well.', h: 'A dirty snowball.' },
+      de: { n: 'Komet', f: 'Kometen sind „schmutzige Schneebälle“. Kommen sie der Sonne nahe, verdampft ihr Eis, und der Schweif kann Millionen Kilometer lang werden. Auch manche Asteroiden tragen Eis, und ab und zu wächst ihnen ebenfalls ein Schweif.', h: 'Ein schmutziger Schneeball.' },
     },
   },
   {
-    id: 'asteroid', cat: 'worlds', emoji: '🥔', recipes: [['iron', 'dust']],
+    id: 'asteroid', cat: 'worlds', emoji: '🥔', recipes: [['iron', 'dust'], ['dust', 'dust']],
     t: {
       bg: { n: 'Астероид', f: 'Между Марс и Юпитер има пояс с милиони астероиди. Въпреки това са толкова раздалечени, че космическите сонди минават през него без проблем.', h: 'Метал и прах, слепени в буца.' },
       en: { n: 'Asteroid', f: 'There is a belt of millions of asteroids between Mars and Jupiter. Still, they are so far apart that space probes fly through it with no trouble.', h: 'Metal and dust stuck into a lump.' },
@@ -228,7 +228,7 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'meteor', cat: 'worlds', emoji: '🌠', recipes: [['asteroid', 'gravity']],
+    id: 'meteor', cat: 'worlds', emoji: '🌠', recipes: [['asteroid', 'gravity'], ['asteroid', 'heat']],
     t: {
       bg: { n: 'Метеор', f: '„Падащата звезда“ всъщност е камъче, често колкото песъчинка, което изгаря във въздуха. Ако парче стигне до земята, се нарича метеорит.', h: 'Скитащ камък, който нещо придърпва.' },
       en: { n: 'Meteor', f: 'A "shooting star" is really a pebble, often no bigger than a grain of sand, burning up in the air. If a piece reaches the ground it is called a meteorite.', h: 'A wandering rock that something pulls in.' },
@@ -244,19 +244,19 @@ export const COSMOS: ElementDef[] = [
     },
   },
   {
-    id: 'planetary_ring', cat: 'worlds', emoji: '💍', recipes: [['moon', 'gravity']],
+    id: 'planetary_ring', cat: 'worlds', emoji: '💍', recipes: [['moon', 'gravity'], ['planet', 'ice'], ['planet', 'dust']],
     t: {
-      bg: { n: 'Пръстен', f: 'Пръстените на Сатурн са широки стотици хиляди километри, но на много места са дебели само десетина метра. Направени са най-вече от лед.', h: 'Спътник, разкъсан от теглене.' },
-      en: { n: 'Planetary ring', f: 'Saturn\'s rings are hundreds of thousands of kilometres wide but in many places only about ten metres thick. They are made mostly of ice.', h: 'A moon torn apart by pulling.' },
-      de: { n: 'Planetenring', f: 'Die Ringe des Saturn sind Hunderttausende Kilometer breit, aber an vielen Stellen nur etwa zehn Meter dick. Sie bestehen vor allem aus Eis.', h: 'Ein Mond, vom Ziehen zerrissen.' },
+      bg: { n: 'Пръстен', f: 'Пръстените на Сатурн са широки стотици хиляди километри, но на много места са дебели само десетина метра. Направени са най-вече от лед.', h: 'Сатурн носи такъв, направен най-вече от лед.' },
+      en: { n: 'Planetary ring', f: 'Saturn\'s rings are hundreds of thousands of kilometres wide but in many places only about ten metres thick. They are made mostly of ice.', h: 'Saturn wears one, made mostly of ice.' },
+      de: { n: 'Planetenring', f: 'Die Ringe des Saturn sind Hunderttausende Kilometer breit, aber an vielen Stellen nur etwa zehn Meter dick. Sie bestehen vor allem aus Eis.', h: 'Saturn trägt einen, vor allem aus Eis.' },
     },
   },
   {
-    id: 'earth', cat: 'worlds', emoji: '🌍', key: true, recipes: [['solar_system', 'ice']],
+    id: 'earth', cat: 'worlds', emoji: '🌍', key: true, recipes: [['planet', 'oxygen'], ['planet', 'moon']],
     t: {
-      bg: { n: 'Земя', f: 'Земята е на точното разстояние от Слънцето, за да има течна вода. Учените смятат, че част от водата ѝ е донесена от комети и астероиди.', h: 'Единственото място в системата, където ледът може да стане море.' },
-      en: { n: 'Earth', f: 'The Earth is at just the right distance from the Sun to have liquid water. Scientists think some of its water was brought by comets and asteroids.', h: 'The one place in the system where ice can become a sea.' },
-      de: { n: 'Erde', f: 'Die Erde hat genau den richtigen Abstand zur Sonne für flüssiges Wasser. Forscher glauben, dass ein Teil ihres Wassers von Kometen und Asteroiden gebracht wurde.', h: 'Der eine Ort im System, an dem Eis zu einem Meer werden kann.' },
+      bg: { n: 'Земя', f: 'Земята е единствената позната планета с въздух, пълен с кислород, и с океани от течна вода. Голямата ѝ Луна пази наклона на Земята стабилен, а с него и сезоните.', h: 'Планета с въздух, който може да се диша.' },
+      en: { n: 'Earth', f: 'The Earth is the only planet we know with air full of oxygen and oceans of liquid water. Its big Moon keeps the Earth\'s tilt steady, and with it the seasons.', h: 'A planet with air you can breathe.' },
+      de: { n: 'Erde', f: 'Die Erde ist der einzige bekannte Planet mit Luft voller Sauerstoff und Ozeanen aus flüssigem Wasser. Ihr großer Mond hält die Neigung der Erde stabil und damit auch die Jahreszeiten.', h: 'Ein Planet mit Luft zum Atmen.' },
     },
   },
 ];
