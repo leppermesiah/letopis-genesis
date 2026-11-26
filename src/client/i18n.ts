@@ -53,6 +53,7 @@ const bg = {
   chapterBonus: 'Главата е завършена',
   chapterDone: 'Браво! Глава „{0}“ е завършена.',
   comingSoon: 'Следващата глава идва скоро.',
+  chapterUnlocked: 'Отключи нова глава: „{0}“! Новите елементи се правят и с нещата, които вече имаш.',
   skipped: 'пропуснат',
   all: 'Всички',
   offline: 'Няма връзка със сървъра. Опитвам отново…',
@@ -121,6 +122,7 @@ const en: Dict = {
   chapterBonus: 'Chapter complete',
   chapterDone: 'Well done! Chapter "{0}" is complete.',
   comingSoon: 'The next chapter is coming soon.',
+  chapterUnlocked: 'New chapter unlocked: "{0}"! Its elements are made with the things you already have, too.',
   skipped: 'skipped',
   all: 'All',
   offline: 'No connection to the server. Trying again…',
@@ -187,6 +189,7 @@ const de: Dict = {
   chapterBonus: 'Kapitel geschafft',
   chapterDone: 'Gut gemacht! Das Kapitel „{0}“ ist geschafft.',
   comingSoon: 'Das nächste Kapitel kommt bald.',
+  chapterUnlocked: 'Neues Kapitel freigeschaltet: „{0}“! Seine Elemente entstehen auch aus Dingen, die du schon hast.',
   skipped: 'übersprungen',
   all: 'Alle',
   offline: 'Keine Verbindung zum Server. Neuer Versuch…',
@@ -208,10 +211,19 @@ export const CATS: Record<string, Record<Lang, string>> = {
   stars: { bg: 'Звезди', en: 'Stars', de: 'Sterne' },
   materials: { bg: 'Вещества', en: 'Substances', de: 'Stoffe' },
   worlds: { bg: 'Светове', en: 'Worlds', de: 'Welten' },
+  elements: { bg: 'Стихии', en: 'Elements', de: 'Elemente' },
+  weather: { bg: 'Небе', en: 'Sky', de: 'Himmel' },
+  land: { bg: 'Суша', en: 'Land', de: 'Land' },
+  sea: { bg: 'Море', en: 'Sea', de: 'Meer' },
+  life: { bg: 'Живот', en: 'Life', de: 'Leben' },
+  plants: { bg: 'Растения', en: 'Plants', de: 'Pflanzen' },
+  animals: { bg: 'Животни', en: 'Animals', de: 'Tiere' },
+  traces: { bg: 'Следи', en: 'Traces', de: 'Spuren' },
 };
 
 export const CHAPTER_NAMES: Record<string, Record<Lang, string>> = {
   cosmos: { bg: 'Космос', en: 'Cosmos', de: 'Kosmos' },
+  earth: { bg: 'Земя', en: 'Earth', de: 'Erde' },
 };
 
 export const TITLE_NAMES: Record<Lang, string[]> = {

@@ -11,6 +11,7 @@ Put two of them together and see what happens. Every discovery comes with a shor
 ## Features
 
 - Chapter 1, **Cosmos**: from the Big Bang to stars, black holes, galaxies, planets and the Earth.
+- Chapter 2, **Earth**: from water, fire and stone to the first cell, plants, dinosaurs and the first human.
 - A short fact for every element, in Bulgarian, English and German, switchable at any time.
 - Hints that never give the answer away: a riddle first, then one ingredient, then the shape of the other.
   After the last hint you may skip the element, but it brings no points.

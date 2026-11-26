@@ -14,7 +14,8 @@ export interface ElementDef {
   t: Record<Lang, ElementText>;
 }
 
-export interface NearMiss { pair: [string, string]; t: Record<Lang, string> }
+/** a pair that makes sense but comes too early: its clue stays on screen until target is found */
+export interface NearMiss { pair: [string, string]; target: string; t: Record<Lang, string> }
 
 export interface ChapterDef {
   id: string;
@@ -72,6 +73,8 @@ export interface GameState {
   hint: HintState;
   chapters: ChapterState[];
   unlockPercent: number;
+  /** the last "almost!" clue: it stays until its target is found or a new clue comes */
+  near: { pair: string; text: Record<Lang, string> } | null;
 }
 
 export interface CombineResult {

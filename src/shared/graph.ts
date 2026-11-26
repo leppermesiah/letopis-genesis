@@ -1,5 +1,5 @@
 import { CHAPTERS } from './chapters';
-import { LANGS, pairKey, type Content, type ElementDef, type Lang } from './types';
+import { LANGS, pairKey, type Content, type ElementDef, type NearMiss } from './types';
 
 export { pairKey };
 
@@ -23,8 +23,8 @@ for (const e of ELEMENTS.values()) {
 }
 
 /** "almost!" clues by pair */
-export const NEAR = new Map<string, Record<Lang, string>>();
-for (const ch of CHAPTERS) for (const n of ch.near) NEAR.set(pairKey(n.pair[0], n.pair[1]), n.t);
+export const NEAR = new Map<string, NearMiss>();
+for (const ch of CHAPTERS) for (const n of ch.near) NEAR.set(pairKey(n.pair[0], n.pair[1]), n);
 
 /** steps from the starting elements: the shortest way to make it */
 export const DEPTH = new Map<string, number>();
@@ -41,8 +41,16 @@ for (let changed = true; changed; ) {
   }
 }
 
+/** depth counted from the start of its own chapter, so a later chapter starts cheap again */
+const CHAPTER_BASE = new Map<string, number>();
+for (const ch of CHAPTERS) {
+  const ds = ch.elements.filter((e) => !e.start).map((e) => DEPTH.get(e.id) ?? 1);
+  CHAPTER_BASE.set(ch.id, Math.max(0, Math.min(...ds) - 1));
+}
+
 export const tierOf = (id: string) => {
-  const d = DEPTH.get(id) ?? 0;
+  const e = ELEMENTS.get(id);
+  const d = (DEPTH.get(id) ?? 0) - (e ? CHAPTER_BASE.get(e.chapter) ?? 0 : 0);
   return d <= 3 ? 0 : d <= 6 ? 1 : d <= 9 ? 2 : 3;
 };
 
@@ -83,6 +91,8 @@ export function validate(): string[] {
     for (const n of ch.near) {
       const k = pairKey(n.pair[0], n.pair[1]);
       for (const x of n.pair) if (!ELEMENTS.has(x)) errors.push(`near ${k}: unknown ${x}`);
+      if (!ELEMENTS.has(n.target)) errors.push(`near ${k}: unknown target ${n.target}`);
+      if (n.pair.includes(n.target)) errors.push(`near ${k}: target is part of the pair`);
       if (PAIRS.has(k)) errors.push(`near ${k}: this pair already makes something`);
       for (const l of LANGS) if (!n.t[l]) errors.push(`near ${k}: missing ${l} text`);
     }

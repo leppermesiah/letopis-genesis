@@ -3,7 +3,7 @@ import type { NearMiss } from '../types';
 // "Almost!": pairs that make sense but come too early. They teach why and point the way, without the answer.
 export const COSMOS_NEAR: NearMiss[] = [
   {
-    pair: ['matter', 'gravity'],
+    pair: ['matter', 'gravity'], target: 'planet',
     t: {
       bg: 'Материята още е твърде проста. Каменните планети се правят от нещо, което звездите оставят след себе си.',
       en: 'Matter is still too simple. Rocky planets are made from something stars leave behind.',
@@ -11,7 +11,7 @@ export const COSMOS_NEAR: NearMiss[] = [
     },
   },
   {
-    pair: ['hydrogen', 'gravity'],
+    pair: ['hydrogen', 'gravity'], target: 'star',
     t: {
       bg: 'Близо си до звезда! Но един атом не стига: първо събери голям облак газ.',
       en: 'You are close to a star! But one atom is not enough: first gather a big cloud of gas.',
@@ -19,7 +19,7 @@ export const COSMOS_NEAR: NearMiss[] = [
     },
   },
   {
-    pair: ['hydrogen', 'hydrogen'],
+    pair: ['hydrogen', 'hydrogen'], target: 'helium',
     t: {
       bg: 'Два водорода се сливат само когато е адски горещо, както в сърцето на звезда.',
       en: 'Two hydrogens fuse only when it is incredibly hot, like in the heart of a star.',
@@ -27,7 +27,7 @@ export const COSMOS_NEAR: NearMiss[] = [
     },
   },
   {
-    pair: ['energy', 'energy'],
+    pair: ['energy', 'energy'], target: 'big_bang',
     t: {
       bg: 'Толкова много сила, но няма къде да се разгърне. Трябва ѝ място.',
       en: 'So much power, but nowhere to go. It needs room.',
@@ -35,7 +35,7 @@ export const COSMOS_NEAR: NearMiss[] = [
     },
   },
   {
-    pair: ['big_bang', 'matter'],
+    pair: ['big_bang', 'matter'], target: 'particle',
     t: {
       bg: 'Големият взрив е самото начало, материята идва чак след него. Дай му малко време.',
       en: 'The Big Bang is the very beginning, matter only comes after it. Give it a little time.',
@@ -43,7 +43,7 @@ export const COSMOS_NEAR: NearMiss[] = [
     },
   },
   {
-    pair: ['star', 'gravity'],
+    pair: ['star', 'gravity'], target: 'black_hole',
     t: {
       bg: 'Звездата дърпа силно, но докато свети, не може да пропадне. Първо трябва да умре.',
       en: 'The star pulls hard, but while it shines it cannot collapse. First it has to die.',
@@ -51,7 +51,7 @@ export const COSMOS_NEAR: NearMiss[] = [
     },
   },
   {
-    pair: ['star', 'matter'],
+    pair: ['star', 'matter'], target: 'carbon',
     t: {
       bg: 'Звездите сами пекат нова материя в себе си. Започват от най-леките газове.',
       en: 'Stars bake new matter inside themselves. They start from the lightest gases.',
@@ -59,7 +59,7 @@ export const COSMOS_NEAR: NearMiss[] = [
     },
   },
   {
-    pair: ['star', 'energy'],
+    pair: ['star', 'energy'], target: 'supernova',
     t: {
       bg: 'На звездата не ѝ трябва още сила. Нейната история продължава с времето.',
       en: 'The star does not need more power. Its story goes on with time.',
@@ -69,7 +69,7 @@ export const COSMOS_NEAR: NearMiss[] = [
 
 
   {
-    pair: ['planet', 'gravity'],
+    pair: ['planet', 'gravity'], target: 'moon',
     t: {
       bg: 'Планетата вече държи всичко около себе си. Опитай да я удариш с нещо скалисто.',
       en: 'The planet already holds everything around it. Try hitting it with something rocky.',

@@ -14,7 +14,7 @@ export class HttpError extends Error {
 interface ProfileRow {
   id: number; name: string; avatar: string; pin_salt: string; pin_hash: string;
   points: number; hints: number; streak: number; earned: number;
-  hint_target: string | null; hint_level: number; fails: number; locked_until: number;
+  hint_target: string | null; hint_level: number; fails: number; locked_until: number; near: string | null;
 }
 
 const hashPin = (pin: string, salt: string) => scryptSync(pin, salt, 32).toString('hex');
@@ -98,7 +98,7 @@ export class Game {
     try {
       this.db.prepare('DELETE FROM discoveries WHERE profile_id = ?').run(id);
       this.db.prepare('DELETE FROM tried WHERE profile_id = ?').run(id);
-      this.db.prepare('UPDATE profiles SET points = 0, hints = ?, streak = 0, earned = 0, hint_target = NULL, hint_level = 0 WHERE id = ?')
+      this.db.prepare('UPDATE profiles SET points = 0, hints = ?, streak = 0, earned = 0, hint_target = NULL, hint_level = 0, near = NULL WHERE id = ?')
         .run(START_HINTS, id);
       this.seed(id);
       this.db.exec('COMMIT');
@@ -204,8 +204,9 @@ export class Game {
     const open = this.unlockedSet(found);
     const addMade = (k: string) => { if (!made[k]) made[k] = (PAIRS.get(k) ?? []).filter((x) => found.has(x)); };
     for (const t of this.db.prepare('SELECT pair, ok FROM tried WHERE profile_id = ?').all(id) as { pair: string; ok: number }[]) {
-      if ((PAIRS.get(t.pair) ?? []).some((x) => found.has(x))) addMade(t.pair);
-      else tried.push(t.pair);
+      const makes = PAIRS.get(t.pair) ?? [];
+      if (makes.some((x) => found.has(x))) addMade(t.pair);
+      else if (!makes.some((x) => open.has(x))) tried.push(t.pair);
     }
     for (const d of discovered) if (d.a && d.b) addMade(pairKey(d.a, d.b));
     const pending: Record<string, number> = {};
@@ -213,9 +214,11 @@ export class Game {
       const n = [...(USES.get(e) ?? [])].filter((x) => !found.has(x) && open.has(x)).length;
       if (n) pending[e] = n;
     }
+    const nm = r.near ? NEAR.get(r.near) : undefined;
+    const near = nm && !found.has(nm.target) ? { pair: r.near!, text: nm.t } : null;
     return {
       profile: { id: r.id, name: r.name, avatar: r.avatar, points: r.points, hints: r.hints, streak: r.streak },
-      discovered, exhausted, tried, made, pending, hint, chapters: this.chapters(found), unlockPercent: this.unlockPercent,
+      discovered, exhausted, tried, made, pending, hint, chapters: this.chapters(found), unlockPercent: this.unlockPercent, near,
     };
   }
 
@@ -252,8 +255,11 @@ export class Game {
     const bonus = { streak: 0, chapter: 0 };
     if (makes.length === 0) {
       const before = this.db.prepare('SELECT 1 FROM tried WHERE profile_id = ? AND pair = ?').get(id, key);
-      if (!before) this.db.prepare('INSERT INTO tried (profile_id, pair, ok) VALUES (?, ?, 0)').run(id, key);
-      return { results: [], tried: !!before, near: NEAR.get(key) ?? null, bonus, state: this.state(id) };
+      if (!before) this.db.prepare('INSERT OR REPLACE INTO tried (profile_id, pair, ok) VALUES (?, ?, 0)').run(id, key);
+      const nm = NEAR.get(key);
+      const near = nm && !found.has(nm.target) ? nm : null;
+      if (near) this.db.prepare('UPDATE profiles SET near = ? WHERE id = ?').run(key, id);
+      return { results: [], tried: !!before, near: near ? near.t : null, bonus, state: this.state(id) };
     }
     this.db.prepare('INSERT OR REPLACE INTO tried (profile_id, pair, ok) VALUES (?, ?, 1)').run(id, key);
     const results: CombineResult['results'] = [];

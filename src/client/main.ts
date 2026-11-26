@@ -1,7 +1,7 @@
 import { SpaceBackground } from './bg';
 import { CATS, CHAPTER_NAMES, TITLE_NAMES, UI, detectLang } from './i18n';
 import {
-  LANGS, TITLES, pairKey, type CombineResult, type Content, type ContentElement, type GameState, type Lang,
+  LANGS, TITLES, pairKey, type ChapterState, type CombineResult, type Content, type ContentElement, type GameState, type Lang,
 } from '../shared/types';
 
 declare const __BUILD__: string;
@@ -305,7 +305,18 @@ function stage() {
   };
   return h('section', { class: 'stage', id: 'stage' },
     h('div', { class: 'pair' }, mk(0), h('span', { class: 'plus' }, '+'), mk(1)),
-    h('div', { class: 'stage-msg', id: 'stage-msg' }, !slots[0] && !slots[1] ? T().pickTwo : !slots[0] || !slots[1] ? T().triedMarks : ''));
+    h('div', { class: 'stage-msg', id: 'stage-msg' }, !slots[0] && !slots[1] ? T().pickTwo : !slots[0] || !slots[1] ? T().triedMarks : ''),
+    nearNote());
+}
+
+/** the last "almost!" stays under the slots until its element is found or a new clue replaces it */
+let nearFlash = false;
+function nearNote() {
+  const n = state?.near;
+  if (!n) return null;
+  const el = h('div', { class: `near-note${nearFlash ? ' flash' : ''}` }, h('b', {}, T().almost), ' ', n.text[lang]);
+  nearFlash = false;
+  return el;
 }
 
 function refreshStage() { $('#stage').replaceWith(stage()); markTried(); }
@@ -427,6 +438,7 @@ async function combine() {
     $('#stage')?.classList.remove('merging');
     return;
   }
+  const chaptersBefore = state?.chapters ?? [];
   state = r.state;
   const fresh = r.results.filter((x) => x.isNew);
   if (fresh.length) {
@@ -434,7 +446,7 @@ async function combine() {
     slots = [null, null];
     renderGame();
     busy = false;
-    showDiscoveries(fresh.map((x) => ({ id: x.id, points: x.points })), r.bonus);
+    showDiscoveries(fresh.map((x) => ({ id: x.id, points: x.points })), r.bonus, newlyUnlocked(chaptersBefore));
     return;
   }
   const stage = $('#stage');
@@ -443,13 +455,17 @@ async function combine() {
     toast(`${T().already} ${r.results.map((x) => name(x.id)).join(', ')}`, 'info');
   } else {
     stage.classList.add('fail');
-    if (r.near) toast(`${T().almost} ${r.near[lang]}`, 'near');
+    if (r.near) nearFlash = true;
     else toast(r.tried ? T().triedBefore : T().nothing, 'warn');
   }
   setTimeout(() => { slots = [null, null]; busy = false; renderGame(); }, 650);
 }
 
-function showDiscoveries(list: { id: string; points: number }[], bonus: { streak: number; chapter: number }) {
+function newlyUnlocked(before: ChapterState[]) {
+  return state!.chapters.find((c, i) => c.unlocked && before[i] && !before[i].unlocked)?.id;
+}
+
+function showDiscoveries(list: { id: string; points: number }[], bonus: { streak: number; chapter: number }, unlocked?: string) {
   const [first, ...rest] = list;
   const s = state!;
   const doneNow = bonus.chapter > 0 ? s.chapters.filter((c) => c.done).at(-1) : undefined;
@@ -464,6 +480,7 @@ function showDiscoveries(list: { id: string; points: number }[], bonus: { streak
     doneNow ? h('div', { class: 'chapter-done' },
       h('p', {}, T().chapterDone.replace('{0}', CHAPTER_NAMES[doneNow.id]?.[lang] ?? doneNow.id)),
       s.chapters.every((c) => c.done) ? h('p', {}, T().comingSoon) : null) : null,
+    unlocked ? h('div', { class: 'chapter-done' }, h('p', {}, T().chapterUnlocked.replace('{0}', CHAPTER_NAMES[unlocked]?.[lang] ?? unlocked))) : null,
     h('button', { class: 'btn big', onclick: close }, T().great)),
   { onClose: () => { if (rest.length) setTimeout(() => showDiscoveries(rest, { streak: 0, chapter: 0 }), 150); } });
 }
@@ -529,11 +546,12 @@ function hintModal() {
           hs.canSkip ? h('button', { class: 'btn danger', onclick: async () => {
             try {
               const r = await api<CombineResult>('/api/skip', {});
+              const chaptersBefore = state!.chapters;
               state = r.state;
               bg.setDiscoveries(state.discovered.map((d) => d.id));
               close();
               renderGame();
-              showDiscoveries(r.results.map((x) => ({ id: x.id, points: 0 })), r.bonus);
+              showDiscoveries(r.results.map((x) => ({ id: x.id, points: 0 })), r.bonus, newlyUnlocked(chaptersBefore));
             } catch { /* toast shown */ }
           } }, T().skip) : null),
         hs.canSkip ? h('div', { class: 'note' }, T().skipNote) : null);
