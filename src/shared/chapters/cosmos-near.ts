@@ -45,9 +45,9 @@ export const COSMOS_NEAR: NearMiss[] = [
   {
     pair: ['star', 'gravity'], target: 'black_hole',
     t: {
-      bg: 'Звездата дърпа силно, но докато свети, не може да пропадне. Първо трябва да умре.',
-      en: 'The star pulls hard, but while it shines it cannot collapse. First it has to die.',
-      de: 'Der Stern zieht stark, aber solange er leuchtet, kann er nicht in sich zusammenstürzen. Zuerst muss er sterben.',
+      bg: 'Черна дупка от жива звезда не става. Първо звездата трябва да избухне, а от нея да остане малко, ужасно тежко ядро. С него опитай пак.',
+      en: 'A living star cannot become a black hole. First it has to explode and leave behind a small, incredibly heavy core. Try again with that.',
+      de: 'Aus einem lebenden Stern wird kein Schwarzes Loch. Zuerst muss er explodieren und einen kleinen, unglaublich schweren Kern zurücklassen. Versuch es damit noch einmal.',
     },
   },
   {
@@ -71,9 +71,9 @@ export const COSMOS_NEAR: NearMiss[] = [
   {
     pair: ['planet', 'gravity'], target: 'moon',
     t: {
-      bg: 'Планетата вече държи всичко около себе си. Опитай да я удариш с нещо скалисто.',
-      en: 'The planet already holds everything around it. Try hitting it with something rocky.',
-      de: 'Der Planet hält schon alles um sich fest. Versuch, ihn mit etwas Felsigem zu treffen.',
+      bg: 'Гравитация планетата вече си има. За луна ѝ трябва удар от скала, който да откърти парче от нея.',
+      en: 'The planet already has gravity. For a moon it needs a hit from a rock that knocks a piece off it.',
+      de: 'Schwerkraft hat der Planet schon. Für einen Mond braucht er den Einschlag eines Felsens, der ein Stück von ihm abschlägt.',
     },
   },
 ];
