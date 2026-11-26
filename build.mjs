@@ -3,9 +3,8 @@ import { cpSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 // every build gets its own id: the page reloads itself when the server runs a newer build
 const BUILD = process.env.GENESIS_BUILD || Date.now().toString(36);
-// shown version: package.json "0.10.0" -> "0.10"
-const [major, minor] = JSON.parse(readFileSync('package.json', 'utf8')).version.split('.');
-const VERSION = `${major}.${minor.padStart(2, '0')}`;
+// shown version: the full one from package.json, e.g. "0.20.3"
+const VERSION = JSON.parse(readFileSync('package.json', 'utf8')).version;
 
 if (process.argv.includes('--check')) {
   await build({ entryPoints: ['scripts/check.ts'], bundle: true, platform: 'node', target: 'node22', format: 'esm', outfile: 'dist/check.mjs', logLevel: 'warning' });
