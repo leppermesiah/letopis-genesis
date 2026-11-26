@@ -63,6 +63,7 @@ export interface ChapterState { id: string; total: number; found: number; unlock
 export interface GameState {
   profile: { id: number; name: string; avatar: string; points: number; hints: number; streak: number };
   discovered: Discovery[];
+  /** elements that cannot make anything new right now: all done, or waiting for a partner not found yet */
   exhausted: string[];
   /** pairs tried that made nothing */
   tried: string[];

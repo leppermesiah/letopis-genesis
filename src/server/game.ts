@@ -190,7 +190,6 @@ export class Game {
     const r = this.row(id);
     const discovered = this.discovered(id);
     const found = new Set(discovered.map((d) => d.id));
-    const exhausted = [...found].filter((e) => [...(USES.get(e) ?? [])].every((x) => found.has(x)));
     const hint: HintState = { target: null, level: 0, ingredients: [], free: this.hintsAreFree(found), canSkip: false };
     if (r.hint_target && !found.has(r.hint_target) && r.hint_level > 0) {
       const [a, b] = this.hintRecipe(r.hint_target, found);
@@ -214,6 +213,13 @@ export class Game {
       const n = [...(USES.get(e) ?? [])].filter((x) => !found.has(x) && open.has(x)).length;
       if (n) pending[e] = n;
     }
+    // greyed out: nothing new can be made with it right now (all done, or still waiting for a partner)
+    const ready = new Set<string>();
+    for (const x of open) {
+      if (found.has(x)) continue;
+      for (const [a, b] of ELEMENTS.get(x)!.recipes) if (found.has(a) && found.has(b)) { ready.add(a); ready.add(b); }
+    }
+    const exhausted = [...found].filter((e) => !ready.has(e));
     const nm = r.near ? NEAR.get(r.near) : undefined;
     const near = nm && !found.has(nm.target) ? { pair: r.near!, text: nm.t } : null;
     return {
