@@ -300,9 +300,9 @@ export const EARTH: ElementDef[] = [
     de: { n: 'Wurm', f: 'Regenwürmer haben keine Lunge und atmen durch die Haut. Beim Graben machen sie die Erde locker und fruchtbar.', h: 'Ein kleines Lebewesen, das in der Erde wühlt.' },
   }),
   el('snail', 'animals', '🐌', [['worm', 'stone']], {
-    bg: { n: 'Охлюв', f: 'Черупката на охлюва расте заедно с него. А езикът му е покрит с хиляди мънички зъбчета.', h: 'Червейче с твърда къщичка на гърба.' },
-    en: { n: 'Snail', f: 'The shell of a snail grows together with it. And its tongue is covered with thousands of tiny teeth.', h: 'A little worm with a hard house on its back.' },
-    de: { n: 'Schnecke', f: 'Das Schneckenhaus wächst mit der Schnecke mit. Und ihre Zunge ist mit Tausenden winziger Zähnchen besetzt.', h: 'Ein Würmchen mit einem harten Haus auf dem Rücken.' },
+    bg: { n: 'Охлюв', f: 'Охлювът не е червей, но и той има меко тяло без кости. Черупката си я строи сам от варовик, същия камък, от който са много скали и пещери. И тя расте заедно с него.', h: 'Мекичко същество, което си е направило каменна къщичка.' },
+    en: { n: 'Snail', f: 'A snail is not a worm, but it too has a soft body with no bones. It builds its shell itself from limestone, the same stone many rocks and caves are made of. And the shell grows together with it.', h: 'A soft little creature that built itself a stone house.' },
+    de: { n: 'Schnecke', f: 'Eine Schnecke ist kein Wurm, aber auch sie hat einen weichen Körper ohne Knochen. Ihr Haus baut sie selbst aus Kalk, demselben Stein, aus dem viele Felsen und Höhlen sind. Und es wächst mit ihr mit.', h: 'Ein weiches Tierchen, das sich ein Steinhaus gebaut hat.' },
   }),
   el('fish', 'animals', '🐟', [['worm', 'ocean'], ['worm', 'water']], {
     bg: { n: 'Риба', f: 'Първите риби са се появили преди около 500 милиона години и са нямали челюсти. Днес видовете риби са повече от всички птици, бозайници и влечуги заедно.', h: 'Червейче, което се е научило да плува в морето.' },
