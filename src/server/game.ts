@@ -250,6 +250,12 @@ export class Game {
     const found = new Set(discovered.map((d) => d.id));
     if (!found.has(a) || !found.has(b)) throw new HttpError(400, 'not_yours');
     const key = pairKey(a, b);
+    // the "almost!" clue goes away once the player moves on to elements that have nothing to do with it
+    if (r.near && r.near !== key && !NEAR.has(key)) {
+      const nm = NEAR.get(r.near);
+      const related = new Set<string>(nm ? [...nm.pair, nm.target, ...ELEMENTS.get(nm.target)!.recipes.flat()] : []);
+      if (!related.has(a) && !related.has(b)) this.db.prepare('UPDATE profiles SET near = NULL WHERE id = ?').run(id);
+    }
     const open = this.unlockedSet(found);
     const makes = (PAIRS.get(key) ?? []).filter((x) => open.has(x));
     const bonus = { streak: 0, chapter: 0 };
